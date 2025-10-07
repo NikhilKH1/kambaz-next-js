@@ -1,0 +1,443 @@
+body   {
+  margin: 0;
+  padding: 0;
+}
+
+body * {
+  font-family: Arial,
+  Helvetica, sans-serif;
+}
+
+@media (min-width: 768px) {
+  #wd-kambaz .wd-main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+
+.list-group.wd > .list-group-item.active {
+  color: black;
+  background-color: white;
+  border-left: 3px solid black !important;
+}
+
+body { margin: 0;  padding: 0; }
+body * { font-family:
+         Arial, Helvetica, 
+         sans-serif; }
+@media (min-width: 768px) {
+  #wd-kambaz .wd-main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+
+.btn-secondary {
+  --bs-btn-color: #000 !important;
+  --bs-btn-bg: #c7cdd1 !important;
+  --bs-btn-border-color: #c7cdd1 !important;
+  --bs-btn-hover-color: #fff !important;
+}
+.bg-secondary {
+  --bs-secondary-rgb: 199, 205, 209;
+}
+.list-group-item {
+  --bs-list-group-border-color: gray;
+}
+.wd-lesson {
+  border-left: 3px solid green !important;
+}
+
+#wd-course-status .btn-lg {
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  border-radius: .375rem;
+}
+
+.assignment-item {
+  border-left: 3px solid #28a745 !important;
+}
+
+@media (min-width: 768px) {
+  .wd-main { margin-left: 120px; }
+}
+
+#wd-assignments-editor .form-label { margin-bottom: .25rem; }
+
+#wd-assignments-editor .card { border-color: #dee2e6; }
+
+
+.assignment-item {
+  border-left: 3px solid #2ba04b !important;
+}
+
+.assignment-item .small {
+  line-height: 1.1;
+}
+
+.assignment-item:hover {
+  background-color: #f6fbff;
+}
+
+#wd-account-navigation {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+#wd-account-navigation a:hover {
+  text-decoration: underline;
+}
+
+.border-start {
+  border-color: #000 !important;
+}
+
+
+.wd-module-card {
+  border: 1px solid #c7cdd1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+
+.wd-module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #c7cdd1;         
+  padding: 6px 10px;
+  border-bottom: 1px solid #c7cdd1;
+  font-weight: 600;
+}
+
+
+.wd-lesson-list .list-group-item {
+  border: 0;
+  border-bottom: 1px solid #e2e6ea;  
+}
+
+
+.wd-lesson-row {
+  position: relative;
+  padding: 10px 12px;
+  background: #fff;
+}
+.wd-lesson-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: #2aa654;        
+}
+
+.wd-lesson-row ul { line-height: 1.35; }
+
+
+#wd-modules-page .fs-5.text-muted { color: #6b747c !important; }
+#wd-modules .fw-semibold { letter-spacing: 0.2px; }
+
+#wd-modules-page {
+  padding-top: 8px;
+}
+#wd-modules-page #wd-modules {
+  width: 100%;
+  max-width: none; 
+}
+
+#wd-modules .wd-module-card {
+  width: 100%;
+}
+
+#wd-modules .wd-lesson-list {
+  display: block !important;
+  height: auto !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}
+
+@media (min-width: 576px) {
+  .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    max-width: 100% !important; 
+  }
+}
+
+.wd-modules-controls {
+  margin-bottom: 16px; 
+}
+
+#wd-modules-page .btn + #wd-modules {
+  margin-top: 16px;
+}
+
+#wd-modules-page .wd-modules-controls {
+  margin-bottom: 24px;  
+}
+
+#wd-modules-page > .btn,
+#wd-modules-page > div > .btn {
+  margin-bottom: 24px !important;
+}
+
+#wd-modules {
+  margin-top: 24px !important;
+}
+
+#wd-publish-all-dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+}
+
+/* grey header like Canvas */
+.wd-group-header {
+  background: #f6f8f9;
+  border-color: #e5e9ec !important;
+  border-bottom: 1px solid #e5e9ec !important;
+}
+
+/* rounded pill “40% of Total” */
+.wd-pill {
+  border: 1px solid #d3d9df;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #4b5563;
+  background: #fff;
+}
+
+/* green left rail for the list */
+.wd-list-rail {
+  border-color: #e5e9ec !important;
+  position: relative;
+}
+.wd-list-rail .list-group-item {
+  border-color: #eef2f5 !important;
+}
+
+/* thin green rail at far left, per item (Canvas look) */
+.wd-row {
+  position: relative;
+  padding-left: 16px;
+}
+.wd-row::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: #2aa654; /* Canvas green */
+  border-radius: 2px;
+}
+
+/* ---------- Page container ---------- */
+#wd-assignments.wd-main {
+  max-width: 980px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ---------- Group headers (ASSIGNMENTS / QUIZZES / EXAMS / PROJECTS) ---------- */
+#wd-assignments .bg-light-subtle.border.rounded-top {
+  background: #f6f8f9 !important;
+  border-color: #e5e9ec !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+/* little “pill” on the right that shows “% of Total” */
+#wd-assignments .bg-light-subtle .text-muted.small {
+  background: #fff;
+  border: 1px solid #d3d9df;
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: #4b5563;
+}
+
+/* kebab/plus spacing in headers */
+#wd-assignments .bg-light-subtle .border.btn,
+#wd-assignments .bg-light-subtle .border.btn:focus {
+  box-shadow: none;
+}
+
+/* ---------- List-group containers ---------- */
+#wd-assignments .list-group {
+  border-color: #e5e9ec !important;
+}
+#wd-assignments .list-group-item {
+  border-color: #eef2f5 !important;
+}
+
+/* ---------- Assignment rows ONLY: green left rail + tighter layout ---------- */
+#wd-assignments .assignment-item {
+  position: relative;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+  padding-left: 16px !important;   /* room for the rail */
+}
+#wd-assignments .assignment-item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: #2aa654;            /* Canvas green */
+  border-radius: 2px;
+}
+
+/* title + meta */
+#wd-assignments .assignment-item a.fw-semibold {
+  color: #0b5cab;
+}
+#wd-assignments .assignment-item a.fw-semibold:hover {
+  text-decoration: underline;
+}
+#wd-assignments .assignment-item .small {
+  line-height: 1.25;
+}
+
+/* icons on the right */
+#wd-assignments .assignment-item .text-success {
+  font-size: 1rem;
+}
+
+/* ---------- Group spacing between Quizzes/Exams/Projects ---------- */
+#wd-assignments .bg-light-subtle.mt-4 {
+  margin-top: 24px !important;
+}
+
+/* Section headers (Canvas-like) */
+.wd-section-header { border-color: #e5e7eb !important; }
+.wd-section-header .wd-section-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #2d2d2d;
+  letter-spacing: 0.2px;
+}
+.wd-section-header .wd-chevron { margin-top: 1px; }
+
+/* Rounded “% of Total” pill */
+.wd-pill {
+  background: #fff;
+  color: #6b7280;
+  border: 1px solid #d8dde3;
+  border-radius: 9999px;
+  padding: 4px 12px;
+}
+
+/* Row styling & green left bar */
+.wd-row { border-bottom: 1px solid #e5e7eb; background: #fff; }
+.wd-leftbar-green { border-left: 4px solid #2e7d32 !important; }
+
+/* Blue link for titles */
+.wd-link { color: #0b63ff; text-decoration: none; }
+.wd-link:hover { text-decoration: underline; }
+
+/* Green check on right */
+.wd-check { color: #2e7d32; }
+
+/* Keep list-group borders subtle like Canvas */
+.list-group-item { --bs-list-group-border-color: #e5e7eb; }
+
+/* === Final Canvas Polishing Tweaks === */
+
+/* Description box formatting */
+#wd-description textarea.form-control {
+  border: 1px solid #c7cdd1;
+  background-color: #fdfdfd;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #2d2d2d;
+  line-height: 1.6;
+}
+
+/* Card spacing and shape */
+#wd-assignments-editor .card {
+  border-radius: 10px;
+  border-color: #d9dcdf;
+  box-shadow: none;
+}
+
+#wd-assignments-editor .card-body {
+  padding: 1.2rem 1.5rem;
+}
+
+/* Inner card (Online Entry Options) */
+#wd-assignments-editor .card .card {
+  background-color: #f9f9f9;
+  border-color: #e3e5e8;
+  border-radius: 8px;
+}
+
+/* Label alignment and color */
+#wd-assignments-editor .form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+}
+
+/* Checkbox alignment */
+#wd-assignments-editor .form-check {
+  margin-top: 0.25rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Input box adjustments */
+#wd-assignments-editor .form-control,
+#wd-assignments-editor select {
+  height: 38px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+/* Buttons */
+#wd-assignments-editor button.btn-danger {
+  background-color: #d41b2c;
+  border: none;
+  font-weight: 600;
+  padding: 0.5rem 1.4rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+#wd-assignments-editor button.btn-secondary {
+  background-color: #f3f4f6;
+  border: 1px solid #d2d6da;
+  color: #1f1f1f;
+  font-weight: 600;
+  padding: 0.5rem 1.4rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+/* Canvas-style link colors */
+#wd-assignments-editor a {
+  color: #0561b0;
+  text-decoration: none;
+}
+
+#wd-assignments-editor a:hover {
+  text-decoration: underline;
+}
+
+/* Overall spacing between blocks */
+#wd-assignments-editor .mb-3,
+#wd-assignments-editor .mb-4 {
+  margin-bottom: 1.3rem !important;
+}
+
+#wd-assignments-editor .mt-3 {
+  margin-top: 1.5rem !important;
+}
+
+/* Date/time input alignment fix */
+#wd-assignments-editor input[type="datetime-local"] {
+  font-size: 0.9rem;
+  color: #2d2d2d;
+  padding: 0.35rem 0.6rem;
+}
+
+/* Center and limit width */
+#wd-assignments-editor {
+  max-width: 850px;
+  margin: 0 auto;
+  background-color: #fff;
+}
