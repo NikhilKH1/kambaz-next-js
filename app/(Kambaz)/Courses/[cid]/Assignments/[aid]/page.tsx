@@ -5,11 +5,6 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 export default function AssignmentEditor() {
   return (
     <div id="wd-assignments-editor" className="p-3">
-      {/* Top actions */}
-      <div className="d-flex justify-content-end gap-2 mb-2">
-        <Button variant="secondary">Cancel</Button>
-        <Button variant="danger">Save</Button>
-      </div>
 
       <Form>
         {/* Assignment Name */}
