@@ -18,6 +18,13 @@ export default function Signup() {
         defaultValue="password123"
       />
 
+      <input
+        placeholder="Confirm Password"
+        type="password"
+        className="form-control mb-2 wd-password"
+        defaultValue="password123"
+      />
+
       <Link
         href="/Account/Profile"
         id="wd-signup-btn"
