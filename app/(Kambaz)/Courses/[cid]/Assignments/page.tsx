@@ -104,7 +104,7 @@ export default function AssignmentsPage() {
       <SectionHeader title="ASSIGNMENTS" pill="40% of Total" />
       <ListGroup className="rounded-0 rounded-bottom border-top-0">
         {filtered.map((a) => (
-          <ListGroupItem key={a.id} className="list-group-item-action py-3 wd-row wd-leftbar-green">
+          <ListGroupItem key={a._id} className="list-group-item-action py-3 wd-row wd-leftbar-green">
             <div className="d-flex align-items-start justify-content-between">
               <div className="d-flex align-items-start gap-3">
                 <BsGripVertical className="text-muted fs-5 mt-1" />
