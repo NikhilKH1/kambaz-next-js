@@ -68,5 +68,195 @@
     "role": "Student",
     "lastActivity": "4 hours ago",
     "totalActivity": "14 hours"
+  },
+  {
+    "_id": "901",
+    "firstName": "Henry",
+    "lastName": "Anderson",
+    "loginId": "henry.anderson",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "30 minutes ago",
+    "totalActivity": "22 hours"
+  },
+  {
+    "_id": "912",
+    "firstName": "Isabella",
+    "lastName": "Martinez",
+    "loginId": "isabella.martinez",
+    "section": "Section 2",
+    "role": "Student",
+    "lastActivity": "6 hours ago",
+    "totalActivity": "16 hours"
+  },
+  {
+    "_id": "923",
+    "firstName": "Jack",
+    "lastName": "Thompson",
+    "loginId": "jack.thompson",
+    "section": "Section 3",
+    "role": "Student",
+    "lastActivity": "1 day ago",
+    "totalActivity": "19 hours"
+  },
+  {
+    "_id": "934",
+    "firstName": "Kate",
+    "lastName": "White",
+    "loginId": "kate.white",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "3 hours ago",
+    "totalActivity": "13 hours"
+  },
+  {
+    "_id": "945",
+    "firstName": "Liam",
+    "lastName": "Garcia",
+    "loginId": "liam.garcia",
+    "section": "Section 2",
+    "role": "Student",
+    "lastActivity": "2 hours ago",
+    "totalActivity": "17 hours"
+  },
+  {
+    "_id": "956",
+    "firstName": "Maya",
+    "lastName": "Rodriguez",
+    "loginId": "maya.rodriguez",
+    "section": "Section 3",
+    "role": "Student",
+    "lastActivity": "5 hours ago",
+    "totalActivity": "21 hours"
+  },
+  {
+    "_id": "967",
+    "firstName": "Noah",
+    "lastName": "Lee",
+    "loginId": "noah.lee",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "1 hour ago",
+    "totalActivity": "11 hours"
+  },
+  {
+    "_id": "978",
+    "firstName": "Olivia",
+    "lastName": "Clark",
+    "loginId": "olivia.clark",
+    "section": "Section 2",
+    "role": "Student",
+    "lastActivity": "4 hours ago",
+    "totalActivity": "15 hours"
+  },
+  {
+    "_id": "989",
+    "firstName": "Paul",
+    "lastName": "Lewis",
+    "loginId": "paul.lewis",
+    "section": "Section 3",
+    "role": "Student",
+    "lastActivity": "7 hours ago",
+    "totalActivity": "23 hours"
+  },
+  {
+    "_id": "990",
+    "firstName": "Quinn",
+    "lastName": "Walker",
+    "loginId": "quinn.walker",
+    "section": "Section 1",
+    "role": "Teaching Assistant",
+    "lastActivity": "30 minutes ago",
+    "totalActivity": "28 hours"
+  },
+  {
+    "_id": "991",
+    "firstName": "Rachel",
+    "lastName": "Hall",
+    "loginId": "rachel.hall",
+    "section": "Section 2",
+    "role": "Teaching Assistant",
+    "lastActivity": "2 hours ago",
+    "totalActivity": "26 hours"
+  },
+  {
+    "_id": "992",
+    "firstName": "Samuel",
+    "lastName": "Allen",
+    "loginId": "samuel.allen",
+    "section": "Section 3",
+    "role": "Teaching Assistant",
+    "lastActivity": "1 hour ago",
+    "totalActivity": "24 hours"
+  },
+  {
+    "_id": "993",
+    "firstName": "Tina",
+    "lastName": "Young",
+    "loginId": "tina.young",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "3 hours ago",
+    "totalActivity": "18 hours"
+  },
+  {
+    "_id": "994",
+    "firstName": "Uma",
+    "lastName": "King",
+    "loginId": "uma.king",
+    "section": "Section 2",
+    "role": "Student",
+    "lastActivity": "6 hours ago",
+    "totalActivity": "20 hours"
+  },
+  {
+    "_id": "995",
+    "firstName": "Victor",
+    "lastName": "Wright",
+    "loginId": "victor.wright",
+    "section": "Section 3",
+    "role": "Student",
+    "lastActivity": "2 days ago",
+    "totalActivity": "9 hours"
+  },
+  {
+    "_id": "996",
+    "firstName": "Wendy",
+    "lastName": "Lopez",
+    "loginId": "wendy.lopez",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "1 day ago",
+    "totalActivity": "12 hours"
+  },
+  {
+    "_id": "997",
+    "firstName": "Xavier",
+    "lastName": "Hill",
+    "loginId": "xavier.hill",
+    "section": "Section 2",
+    "role": "Student",
+    "lastActivity": "4 hours ago",
+    "totalActivity": "14 hours"
+  },
+  {
+    "_id": "998",
+    "firstName": "Yara",
+    "lastName": "Scott",
+    "loginId": "yara.scott",
+    "section": "Section 3",
+    "role": "Student",
+    "lastActivity": "5 hours ago",
+    "totalActivity": "16 hours"
+  },
+  {
+    "_id": "999",
+    "firstName": "Zoe",
+    "lastName": "Green",
+    "loginId": "zoe.green",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "2 hours ago",
+    "totalActivity": "13 hours"
   }
 ]

@@ -30,6 +30,7 @@ import Square from "./Square";
 import Highlight from "./Highlight";
 import PathParameters from "./PathParameters";
 import TodoList from "./todos/TodoList";
+import TodoItem from "./todos/TodoItem";
 
 export default function Lab3() {
   console.log('Hello World!');
@@ -63,16 +64,22 @@ export default function Lab3() {
       <DestructingImports/>
       <Classes/>
       <Styles/>
+      <hr></hr>
       <Add a={3} b={4} />
       <h4>Square of 4</h4>
       <Square>4</Square>
-      <br></br>
+      <hr></hr>
       <Highlight>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
         vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
      </Highlight>
+     <hr></hr>
      <PathParameters/>
+     <hr></hr>
+     <TodoItem />
+     <hr></hr>
      <TodoList />
+
 
     </div>
 );}

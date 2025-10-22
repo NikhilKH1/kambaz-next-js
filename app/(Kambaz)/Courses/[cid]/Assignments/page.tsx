@@ -116,12 +116,11 @@ export default function AssignmentsPage() {
                   >
                     {a.title}
                   </Link>
-                  <div className="small">
+                  <div className="small text-muted">
                     <span className="text-danger">{a.availLabel}</span>
                     <span className="text-muted">&nbsp;|&nbsp;{a.availRest}</span>
-                  </div>
-                  <div className="small text-muted">
-                    {a.due}&nbsp;|&nbsp;{a.points} pts
+                    <span className="text-muted">&nbsp;|&nbsp;{a.due}</span>
+                    <span className="text-muted">&nbsp;|&nbsp;{a.points} pts</span>
                   </div>
                 </div>
               </div>
