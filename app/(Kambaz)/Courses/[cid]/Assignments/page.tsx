@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
+import * as db from "../../../Database";
 import {
   Button,
   InputGroup,
@@ -20,25 +22,13 @@ import {
 } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
 
-type AssignItem = {
-  id: string;
-  title: string;
-  availLabel: string;
-  availRest: string;
-  due: string;
-  points: number;
-};
-
-const ASSIGNMENTS: AssignItem[] = [
-  { id: "a1", title: "A1", availLabel: "Multiple Modules", availRest: "Not available until May 6 at 12:00am", due: "Due May 13 at 11:59pm", points: 100 },
-  { id: "a2", title: "A2", availLabel: "Multiple Modules", availRest: "Not available until May 13 at 12:00am", due: "Due May 20 at 11:59pm", points: 100 },
-  { id: "a3", title: "A3", availLabel: "Multiple Modules", availRest: "Not available until May 20 at 12:00am", due: "Due May 27 at 11:59pm", points: 100 },
-];
-
 export default function AssignmentsPage() {
+  const { cid } = useParams();
   const [q, setQ] = useState("");
+  
+  const assignments = db.assignments.filter((assignment: any) => assignment.course === cid);
 
-  const filtered = ASSIGNMENTS.filter((a) =>
+  const filtered = assignments.filter((a: any) =>
     `${a.title} ${a.availLabel} ${a.availRest} ${a.due} ${a.points}`
       .toLowerCase()
       .includes(q.toLowerCase())
@@ -121,7 +111,7 @@ export default function AssignmentsPage() {
                 <BsFileEarmarkText className="text-secondary mt-1" />
                 <div>
                   <Link
-                    href={`/Courses/CS5610/Assignments/${a.id}`}
+                    href={`/Courses/${cid}/Assignments/${a._id}`}
                     className="fw-semibold d-block text-dark"
                   >
                     {a.title}

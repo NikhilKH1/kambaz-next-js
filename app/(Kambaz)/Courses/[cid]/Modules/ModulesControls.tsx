@@ -54,7 +54,6 @@ export default function ModulesControls() {
         </DropdownMenu>
       </Dropdown>
 
-      {/* View Progress Button */}
       <Button
         variant="secondary"
         size="lg"
@@ -64,7 +63,6 @@ export default function ModulesControls() {
         View Progress
       </Button>
 
-      {/* Collapse All Button */}
       <Button
         variant="secondary"
         size="lg"

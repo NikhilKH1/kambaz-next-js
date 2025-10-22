@@ -1,0 +1,72 @@
+[
+  {
+    "_id": "123",
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "loginId": "alice.johnson",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "2 hours ago",
+    "totalActivity": "15 hours"
+  },
+  {
+    "_id": "234",
+    "firstName": "Bob",
+    "lastName": "Smith",
+    "loginId": "bob.smith",
+    "section": "Section 1",
+    "role": "Student",
+    "lastActivity": "1 day ago",
+    "totalActivity": "12 hours"
+  },
+  {
+    "_id": "345",
+    "firstName": "Charlie",
+    "lastName": "Brown",
+    "loginId": "charlie.brown",
+    "section": "Section 2",
+    "role": "Student",
+    "lastActivity": "3 hours ago",
+    "totalActivity": "18 hours"
+  },
+  {
+    "_id": "456",
+    "firstName": "Diana",
+    "lastName": "Davis",
+    "loginId": "diana.davis",
+    "section": "Section 2",
+    "role": "Student",
+    "lastActivity": "5 hours ago",
+    "totalActivity": "20 hours"
+  },
+  {
+    "_id": "567",
+    "firstName": "Eve",
+    "lastName": "Wilson",
+    "loginId": "eve.wilson",
+    "section": "Section 1",
+    "role": "Teaching Assistant",
+    "lastActivity": "1 hour ago",
+    "totalActivity": "25 hours"
+  },
+  {
+    "_id": "789",
+    "firstName": "Frank",
+    "lastName": "Miller",
+    "loginId": "frank.miller",
+    "section": "Section 3",
+    "role": "Student",
+    "lastActivity": "2 days ago",
+    "totalActivity": "8 hours"
+  },
+  {
+    "_id": "890",
+    "firstName": "Grace",
+    "lastName": "Taylor",
+    "loginId": "grace.taylor",
+    "section": "Section 3",
+    "role": "Student",
+    "lastActivity": "4 hours ago",
+    "totalActivity": "14 hours"
+  }
+]
