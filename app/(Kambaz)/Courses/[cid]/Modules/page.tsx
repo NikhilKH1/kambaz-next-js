@@ -20,7 +20,7 @@ export default function Modules() {
       <div style={{ height: 24 }} />
 
       <ListGroup className="rounded-0 w-100 mt-3" id="wd-modules">
-        {modules.filter((module: any) => module.course === cid).map((module: any) => (
+        {modules.filter((module: db.Module) => module.course === cid).map((module: db.Module) => (
           <ListGroupItem key={module._id} className="p-0 mb-4 wd-module-card">
             <div className="wd-module-header">
               <div className="d-flex align-items-center gap-2">
@@ -31,7 +31,7 @@ export default function Modules() {
             </div>
             {module.lessons && (
               <ListGroup variant="flush" className="wd-lesson-list">
-                {module.lessons.map((lesson: any) => (
+                {module.lessons.map((lesson: db.Lesson) => (
                   <ListGroupItem key={lesson._id} className="wd-lesson-row">
                     <div className="d-flex align-items-start justify-content-between">
                       <div className="d-flex align-items-center gap-2">

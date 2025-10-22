@@ -8,19 +8,9 @@ export default function Dashboard() {
   const courses = db.courses;
 
   // Function to get course-specific image
-  const getCourseImage = (courseId: string, courseName: string) => {
-    const imageMap: { [key: string]: string } = {
-      "RS101": "/images/reactjs.jpg", // Rocket Propulsion - using rocket-like image
-      "RS102": "/images/algorithms.jpg", // Aerodynamics - using technical image
-      "RS103": "/images/nodejs.jpg", // Spacecraft Design - using space-related image
-      "RS104": "/images/jsfundamentals.jpg", // Organic Chemistry - using science-related image
-      "RS105": "/images/dbms.jpg", // Inorganic Chemistry - using database/structured image
-      "RS106": "/images/devops.jpg", // Physical Chemistry - using technical image
-      "RS107": "/images/htmlcss.jpg", // Ancient Languages - using language-related image
-      "RS108": "/images/stacked.jpg", // Inter-species Diplomacy - using structured image
-    };
-    
-    return imageMap[courseId] || "/images/reactjs.jpg"; // Default fallback
+  const getCourseImage = (courseId: string) => {
+    const course = courses.find(c => c._id === courseId);
+    return course?.image || "/images/stacked.jpg"; // Default fallback
   };
 
   return (
@@ -40,7 +30,8 @@ export default function Dashboard() {
                   className="wd-dashboard-course-link text-decoration-none text-dark"
                 >
                   <CardImg
-                    src={getCourseImage(course._id, course.name)}
+                    src={getCourseImage(course._id)}
+                    alt={course.name}
                     variant="top"
                     width="100%"
                     height={160}

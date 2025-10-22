@@ -26,9 +26,9 @@ export default function AssignmentsPage() {
   const { cid } = useParams();
   const [q, setQ] = useState("");
   
-  const assignments = db.assignments.filter((assignment: any) => assignment.course === cid);
+  const assignments = db.assignments.filter((assignment: db.Assignment) => assignment.course === cid);
 
-  const filtered = assignments.filter((a: any) =>
+  const filtered = assignments.filter((a: db.Assignment) =>
     `${a.title} ${a.availLabel} ${a.availRest} ${a.due} ${a.points}`
       .toLowerCase()
       .includes(q.toLowerCase())
