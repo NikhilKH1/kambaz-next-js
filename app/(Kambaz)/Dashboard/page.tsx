@@ -32,7 +32,7 @@ export default function Dashboard() {
   }
 
   // Check if current user is Faculty
-  const isFaculty = (currentUser as any)?.role?.toUpperCase() === "FACULTY";
+  const isFaculty = currentUser && String((currentUser as any)?.role || "").toUpperCase().trim() === "FACULTY";
 
   // Check if user is enrolled in a course
   const isEnrolled = (courseId: string): boolean => {

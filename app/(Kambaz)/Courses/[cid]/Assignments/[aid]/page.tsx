@@ -73,7 +73,8 @@ export default function AssignmentEditor() {
       // Try to parse "Due May 13 at 11:59pm" or "Not available until May 6 at 12:00am" format
       else {
         // Match pattern like "May 6 at 12:00am" (can have text before it like "Not available until")
-        const match = dateString.match(/(\w+)\s+(\d+)\s+at\s+(\d{1,2}):(\d{2})(am|pm)/i);
+        // Handle both "12:00am" and "12:00 am" formats
+        const match = dateString.match(/(\w+)\s+(\d+)\s+at\s+(\d{1,2}):(\d{2})\s*(am|pm)/i);
         if (match) {
           const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'];

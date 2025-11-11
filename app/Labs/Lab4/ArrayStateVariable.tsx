@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
+import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 export default function ArrayStateVariable() {
  const [array, setArray] = useState([1, 2, 3, 4, 5]);
  const { todos } = useSelector((state: RootState) => state.todosReducer);
@@ -15,14 +15,15 @@ const deleteElement = (index: number) => {
  return (
   <div id="wd-array-state-variables">
    <h2>Array State Variable</h2>
-   <button onClick={addElement}>Add Element</button>
-   <ul>
+   <Button variant="success" onClick={addElement} className="mb-3">Add Element</Button>
+   <ListGroup>
     {array.map((item, index) => (
-     <li key={index}> {item}
-      <button onClick={() => deleteElement(index)}>
-       Delete</button>
-     </li>))}
-   </ul><hr/>
+     <ListGroupItem key={index} className="d-flex align-items-center gap-2">
+      <span className="flex-fill">{item}</span>
+      <Button variant="danger" onClick={() => deleteElement(index)}>
+       Delete</Button>
+     </ListGroupItem>))}
+   </ListGroup><hr/>
    <h3>Todos from Redux</h3>
    <ListGroup>
         {todos.map((todo: any) => (

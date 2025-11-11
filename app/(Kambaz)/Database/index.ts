@@ -36,9 +36,8 @@ export interface Assignment {
   title: string;
   course: string;
   description: string;
-  availLabel: string;
-  availRest: string;
-  due: string;
+  "Not available until": string;
+  "Due": string;
   points: number;
 }
 
