@@ -18,6 +18,7 @@ export interface Course {
 }
 
 export interface Module {
+  editing: any;
   _id: string;
   name: string;
   course: string;

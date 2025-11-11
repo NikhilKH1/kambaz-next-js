@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import * as db from "../../../Database";
 import {
   Button,
   InputGroup,
   FormControl,
   ListGroup,
   ListGroupItem,
+  Modal,
 } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
 import {
@@ -20,15 +20,25 @@ import {
   BsChevronDown,
   BsThreeDots,
 } from "react-icons/bs";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaTrash } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../store";
+import { deleteAssignment } from "./reducer";
 
 export default function AssignmentsPage() {
   const { cid } = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [q, setQ] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
   
-  const assignments = db.assignments.filter((assignment: db.Assignment) => assignment.course === cid);
+  const { assignments } = useSelector((state: RootState) => state.assignmentsReducer);
+  const { currentUser } = useSelector((state: RootState) => state.accountReducer);
+  const isFaculty = (currentUser as any)?.role?.toUpperCase() === "FACULTY";
+  const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
 
-  const filtered = assignments.filter((a: db.Assignment) =>
+  const filtered = filteredAssignments.filter((a: any) =>
     `${a.title} ${a.availLabel} ${a.availRest} ${a.due} ${a.points}`
       .toLowerCase()
       .includes(q.toLowerCase())
@@ -49,9 +59,38 @@ export default function AssignmentsPage() {
     </div>
   );
 
-  const RowRight = () => (
+  const handleDeleteClick = (assignmentId: string) => {
+    setAssignmentToDelete(assignmentId);
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (assignmentToDelete) {
+      dispatch(deleteAssignment(assignmentToDelete));
+      setShowDeleteDialog(false);
+      setAssignmentToDelete(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteDialog(false);
+    setAssignmentToDelete(null);
+  };
+
+  const RowRight = ({ assignmentId }: { assignmentId: string }) => (
     <div className="d-flex align-items-center gap-3">
       <FaCheckCircle className="wd-check" />
+      {isFaculty && (
+        <FaTrash 
+          className="text-danger me-2" 
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleDeleteClick(assignmentId);
+          }}
+          style={{ cursor: 'pointer' }}
+        />
+      )}
       <BsThreeDotsVertical className="text-muted" />
     </div>
   );
@@ -90,14 +129,20 @@ export default function AssignmentsPage() {
             onChange={(e) => setQ(e.target.value)}
           />
         </InputGroup>
-        <div className="ms-auto d-flex gap-2">
-          <Button variant="secondary" className="text-nowrap">
-            <BsPlusLg className="me-2" /> Group
-          </Button>
-          <Button variant="danger" className="text-nowrap">
-            <BsPlusLg className="me-2" /> Assignment
-          </Button>
-        </div>
+        {isFaculty && (
+          <div className="ms-auto d-flex gap-2">
+            <Button variant="secondary" className="text-nowrap">
+              <BsPlusLg className="me-2" /> Group
+            </Button>
+            <Button 
+              variant="danger" 
+              className="text-nowrap"
+              onClick={() => router.push(`/Courses/${cid}/Assignments/new`)}
+            >
+              <BsPlusLg className="me-2" /> Assignment
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* ASSIGNMENTS */}
@@ -124,11 +169,29 @@ export default function AssignmentsPage() {
                   </div>
                 </div>
               </div>
-              <RowRight />
+              <RowRight assignmentId={a._id} />
             </div>
           </ListGroupItem>
         ))}
       </ListGroup>
+
+      {/* Delete Confirmation Dialog */}
+      <Modal show={showDeleteDialog} onHide={handleDeleteCancel}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to remove this assignment? This action cannot be undone.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleDeleteCancel}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteConfirm}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* QUIZZES */}
       <div className="mt-4" />

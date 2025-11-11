@@ -1,29 +1,19 @@
+"use client";
 import Link from "next/link";
-
+import { usePathname } from "next/navigation";
+import { Nav, NavItem, NavLink } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 export default function AccountNavigation() {
-  return (
-    <div
-      id="wd-account-navigation"
-      className="d-flex align-items-start gap-2 mt-2"
-    >
-      <div
-        style={{
-          borderLeft: "2px solid black",
-          height: "70px",
-          marginRight: "8px",
-        }}
-      ></div>
-      <div className="d-flex flex-column">
-        <Link href="/Account/Signin" className="text-dark text-decoration-none mb-2">
-          Signin
-        </Link>
-        <Link href="/Account/Signup" className="text-danger text-decoration-none mb-2">
-          Signup
-        </Link>
-        <Link href="/Account/Profile" className="text-danger text-decoration-none">
-          Profile
-        </Link>
-      </div>
-    </div>
-  );
-}
+  const { currentUser } = useSelector((state: RootState) => state.accountReducer);
+  const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
+ const pathname = usePathname();
+ return (
+   <Nav variant="pills">
+     {links.map((link) => (
+       <NavItem key={link}>
+         <NavLink as={Link} href={link} active={pathname.endsWith(link.toLowerCase())}>
+           {link} </NavLink> </NavItem>
+     ))}
+   </Nav>
+);}
