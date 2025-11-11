@@ -7,6 +7,7 @@ import { FaAlignJustify } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { RootState } from "../../store";
+import Breadcrumb from "./Breadcrumb";
 export default function CoursesLayout({ children }: { children: ReactNode }) {
   const params = useParams();
   const cid = params?.cid as string;
@@ -21,7 +22,7 @@ export default function CoursesLayout({ children }: { children: ReactNode }) {
         style={{ cursor: 'pointer' }}
         onClick={() => setSidebarVisible(!sidebarVisible)}
       />
-      {course?.name}
+      <Breadcrumb course={course} />
   </h2> <hr />
   <div className="d-flex">
     {cid && (
