@@ -78,10 +78,10 @@ export default function AssignmentsPage() {
     setAssignmentToDelete(null);
   };
 
-  const RowRight = ({ assignmentId }: { assignmentId: string }) => (
+  const RowRight = ({ assignmentId }: { assignmentId?: string }) => (
     <div className="d-flex align-items-center gap-3">
       <FaCheckCircle className="wd-check" />
-      {isFaculty && (
+      {isFaculty && assignmentId && (
         <FaTrash 
           className="text-danger me-2" 
           onClick={(e) => {
