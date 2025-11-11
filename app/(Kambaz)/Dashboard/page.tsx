@@ -62,19 +62,13 @@ export default function Dashboard() {
   const getDisplayedCourses = () => {
     if (!currentUser) return [];
     
-    // Faculty always see all courses when showAllCourses is true, or when it's false they still see all
-    // Non-faculty see enrolled courses when showAllCourses is false, or all courses when true
-    if (isFaculty) {
-      // Faculty see all courses
+    // Both faculty and non-faculty see enrolled courses when showAllCourses is false, or all courses when true
+    if (showAllCourses) {
+      // Show all courses
       return courses;
     } else {
-      if (showAllCourses) {
-        // Show all courses
-        return courses;
-      } else {
-        // Show only enrolled courses
-        return courses.filter((course) => isEnrolled(course._id));
-      }
+      // Show only enrolled courses
+      return courses.filter((course) => isEnrolled(course._id));
     }
   };
 
@@ -176,7 +170,7 @@ export default function Dashboard() {
                           </Button>
                         )}
                       </div>
-                      {isFaculty && (
+                      {isFaculty && !showAllCourses && (
                         <>
                           <button onClick={(event) => {
                             event.preventDefault();
@@ -236,7 +230,7 @@ export default function Dashboard() {
                           </Button>
                         )}
                       </div>
-                      {isFaculty && (
+                      {isFaculty && !showAllCourses && (
                         <>
                           <button onClick={(event) => {
                             event.preventDefault();
