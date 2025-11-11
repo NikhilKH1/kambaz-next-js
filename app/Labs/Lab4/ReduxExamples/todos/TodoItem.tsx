@@ -2,8 +2,12 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteTodo, setTodo } from "./todosReducer";
 import { Button, ListGroupItem } from "react-bootstrap";
-export default function TodoItem({ todo,
- }) {
+interface Todo {
+  id: string;
+  title: string;
+}
+
+export default function TodoItem({ todo }: { todo: Todo }) {
   const dispatch = useDispatch();
   return (
     <ListGroupItem key={todo.id}>
