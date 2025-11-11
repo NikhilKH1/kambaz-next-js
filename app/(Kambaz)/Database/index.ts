@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import courses from "./courses.json";
 import modules from "./modules.json";
 import assignments from "./assignments.json";
