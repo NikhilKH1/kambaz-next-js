@@ -7,7 +7,7 @@ export default function Labs() {
       <p>
         <strong>Name:</strong> Nikhil Kundalli Harish <br />
         <strong>Section:</strong> CS-5610 Fall 25 <br />
-        <strong>GitHub repo:</strong>{" "}
+        <strong>Frontend GitHub repo:</strong>{" "}
         <a
           href="https://github.com/NikhilKH1/kambaz-next-js"
           id="wd-github-link"
@@ -16,6 +16,28 @@ export default function Labs() {
         >
           https://github.com/NikhilKH1/kambaz-next-js
         </a>
+        <br />
+        <strong>Backend GitHub repo:</strong>{" "}
+        <a
+          href="https://github.com/NikhilKH1/kambaz-next-js"
+          id="wd-github-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://github.com/NikhilKH1/kambaz-node-server-app
+        </a>
+        <br />
+        
+        <strong>Render Server Link:</strong>{" "}
+        <a
+          href="https://kambaz-node-server-app-o9zz.onrender.com"
+          id="wd-github-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://kambaz-node-server-app-o9zz.onrender.com
+        </a>
+
       </p>
 
       <ul>
