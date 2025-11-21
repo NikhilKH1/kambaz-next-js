@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -22,22 +22,39 @@ import {
   BsThreeDots,
 } from "react-icons/bs";
 import { FaCheckCircle, FaTrash } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { deleteAssignment } from "./reducer";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentsPage() {
-  const { cid } = useParams();
+  const params = useParams();
+  const cid = params?.cid as string;
   const router = useRouter();
-  const dispatch = useDispatch();
   const [q, setQ] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
-  
-  const { assignments } = useSelector((state: RootState) => state.assignmentsReducer);
+  const [assignments, setAssignments] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
   const isFaculty = (currentUser as any)?.role?.toUpperCase() === "FACULTY";
   const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
+
+  const loadAssignments = async () => {
+    if (!cid) return;
+    try {
+      setError(null);
+      const data = await assignmentsClient.findAssignmentsForCourse(cid);
+      setAssignments(data);
+    } catch (err) {
+      setError("Unable to load assignments right now.");
+    }
+  };
+
+  useEffect(() => {
+    loadAssignments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cid]);
 
   const filtered = filteredAssignments.filter((a: any) =>
     `${a.title} ${a.availLabel} ${a.availRest} ${a.due} ${a.points}`
@@ -65,9 +82,16 @@ export default function AssignmentsPage() {
     setShowDeleteDialog(true);
   };
 
-  const handleDeleteConfirm = () => {
-    if (assignmentToDelete) {
-      dispatch(deleteAssignment(assignmentToDelete));
+  const handleDeleteConfirm = async () => {
+    if (!assignmentToDelete) return;
+    try {
+      await assignmentsClient.deleteAssignment(assignmentToDelete);
+      setAssignments((prev) =>
+        prev.filter((assignment) => assignment._id !== assignmentToDelete)
+      );
+    } catch (err) {
+      setError("Unable to delete assignment.");
+    } finally {
       setShowDeleteDialog(false);
       setAssignmentToDelete(null);
     }
@@ -120,6 +144,11 @@ export default function AssignmentsPage() {
 
   return (
     <div id="wd-assignments" className="wd-main p-3">
+      {error && (
+        <div className="alert alert-warning" role="alert">
+          {error}
+        </div>
+      )}
       {/* Search + buttons */}
       <div className="d-flex align-items-center gap-3 mb-3">
         <InputGroup style={{ maxWidth: 360 }}>

@@ -4,22 +4,20 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Button, Card, Col, Form, Row, FormControl } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import { addAssignment, updateAssignment } from "../reducer";
+import * as assignmentsClient from "../client";
 
 export default function AssignmentEditor() {
-  const { cid, aid } = useParams();
+  const params = useParams();
+  const cid = params?.cid as string;
+  const aid = params?.aid as string;
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { assignments } = useSelector((state: RootState) => state.assignmentsReducer);
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
   const isFaculty = (currentUser as any)?.role?.toUpperCase() === "FACULTY";
-  
   const isNewAssignment = aid === "new";
-  const existingAssignment = !isNewAssignment 
-    ? assignments.find((a: any) => a._id === aid)
-    : null;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Redirect non-faculty users trying to create new assignments
   useEffect(() => {
@@ -162,50 +160,92 @@ export default function AssignmentEditor() {
   };
 
   // State for form fields
-  const [title, setTitle] = useState(existingAssignment?.title || "");
-  const [description, setDescription] = useState(existingAssignment?.description || "");
-  const [points, setPoints] = useState(existingAssignment?.points || 100);
-  const [due, setDue] = useState(parseToDateTimeLocal(existingAssignment?.due || ""));
-  const [availableFrom, setAvailableFrom] = useState(parseToDateTimeLocal(existingAssignment?.availRest || ""));
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [points, setPoints] = useState(100);
+  const [due, setDue] = useState(parseToDateTimeLocal(""));
+  const [availableFrom, setAvailableFrom] = useState(parseToDateTimeLocal(""));
   const [availableUntil, setAvailableUntil] = useState(parseToDateTimeLocal("2024-05-20T00:00"));
 
-  const handleSave = () => {
+  const applyAssignment = (assignment: any) => {
+    setTitle(assignment?.title || "");
+    setDescription(assignment?.description || "");
+    setPoints(assignment?.points || 100);
+    setDue(parseToDateTimeLocal(assignment?.due || ""));
+    setAvailableFrom(parseToDateTimeLocal(assignment?.availRest || ""));
+    setAvailableUntil(parseToDateTimeLocal("2024-05-20T00:00"));
+  };
+
+  useEffect(() => {
+    if (!cid) return;
+    if (isNewAssignment) {
+      applyAssignment(null);
+      setError(null);
+      return;
+    }
+    const loadAssignment = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await assignmentsClient.findAssignmentById(aid as string);
+        if (!data) {
+          throw new Error("Assignment not found");
+        }
+        applyAssignment(data);
+      } catch (err) {
+        setError("Unable to load assignment.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadAssignment();
+  }, [aid, cid, isNewAssignment]);
+
+  const handleSave = async () => {
+    if (!isFaculty) {
+      router.push(`/Courses/${cid}/Assignments`);
+      return;
+    }
     const dueDate = new Date(due);
     const availableFromDate = new Date(availableFrom);
-    
-    if (isNewAssignment) {
-      // Create new assignment
-      dispatch(addAssignment({
-        title,
-        course: cid as string,
-        description,
-        points: Number(points),
-        due: formatDueDisplay(dueDate),
-        availRest: formatAvailableFromDisplay(availableFromDate),
-        availLabel: "Multiple Modules",
-      }));
-    } else if (existingAssignment) {
-      // Update existing assignment
-      dispatch(updateAssignment({
-        ...existingAssignment,
-        title,
-        description,
-        points: Number(points),
-        due: formatDueDisplay(dueDate),
-        availRest: formatAvailableFromDisplay(availableFromDate),
-        availLabel: existingAssignment.availLabel || "Multiple Modules",
-      }));
+
+    const payload = {
+      title,
+      course: cid,
+      description,
+      points: Number(points),
+      due: formatDueDisplay(dueDate),
+      availRest: formatAvailableFromDisplay(availableFromDate),
+      availLabel: "Multiple Modules",
+    };
+
+    try {
+      if (isNewAssignment) {
+        await assignmentsClient.createAssignment(cid, payload);
+      } else {
+        await assignmentsClient.updateAssignment(aid as string, payload);
+      }
+      router.push(`/Courses/${cid}/Assignments`);
+    } catch (err) {
+      setError("Unable to save assignment.");
     }
-    router.push(`/Courses/${cid}/Assignments`);
   };
 
   const handleCancel = () => {
     router.push(`/Courses/${cid}/Assignments`);
   };
 
+  if (!isNewAssignment && loading) {
+    return <div className="p-3">Loading...</div>;
+  }
+
   return (
     <div id="wd-assignments-editor" className="p-3 text-start" style={{ textAlign: 'left' }}>
-
+      {error && (
+        <div className="alert alert-warning" role="alert">
+          {error}
+        </div>
+      )}
       <Form className="text-start" style={{ textAlign: 'left' }}>
         {/* Assignment Name */}
         <Form.Group className="mb-3 text-start" controlId="wd-name">
