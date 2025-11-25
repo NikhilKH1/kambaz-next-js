@@ -5,14 +5,18 @@ import { BsPlus } from "react-icons/bs";
 import GreenCheckmark from "./GreenCheckmark";
 
 export default function ModuleControlButtons(
-  { moduleId, deleteModule, editModule }: { moduleId: string; deleteModule: (moduleId: string) => void; editModule: (moduleId: string) => void } 
+  { moduleId, deleteModule, editModule, isFaculty }: { moduleId: string; deleteModule: (moduleId: string) => void; editModule: (moduleId: string) => void; isFaculty: boolean } 
 ) {
   return (
     <div className="float-end">
-      <FaPencil onClick={() => editModule(moduleId)} className="text-primary me-3" />
-      <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteModule(moduleId)}/>
+      {isFaculty && (
+        <>
+          <FaPencil onClick={() => editModule(moduleId)} className="text-primary me-3" style={{ cursor: 'pointer' }} />
+          <FaTrash className="text-danger me-2 mb-1" onClick={() => deleteModule(moduleId)} style={{ cursor: 'pointer' }} />
+        </>
+      )}
       <GreenCheckmark />
-      <BsPlus className="fs-4" />
+      {isFaculty && <BsPlus className="fs-4" />}
       <IoEllipsisVertical className="fs-4" />
     </div>
   );

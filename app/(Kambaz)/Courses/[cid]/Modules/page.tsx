@@ -25,9 +25,12 @@ export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: RootState) => state.modulesReducer);
+  const { currentUser } = useSelector((state: RootState) => state.accountReducer);
+  const isFaculty = (currentUser as any)?.role?.toUpperCase() === "FACULTY";
   const dispatch = useDispatch();
 
   const onUpdateModule = async (module: any) => {
+    if (!isFaculty) return;
     await client.updateModule(module);
     const newModules = modules.map((m: any) =>
       m._id === module._id ? module : m
@@ -36,12 +39,13 @@ export default function Modules() {
   };
 
   const onRemoveModule = async (moduleId: string) => {
+    if (!isFaculty) return;
     await client.deleteModule(moduleId);
     dispatch(setModules(modules.filter((m: any) => m._id !== moduleId)));
   };
 
   const onCreateModuleForCourse = async () => {
-    if (!cid || !moduleName.trim()) return;
+    if (!isFaculty || !cid || !moduleName.trim()) return;
     const newModule = { name: moduleName.trim(), course: cid };
     const module = await client.createModuleForCourse(cid as string, newModule);
     dispatch(setModules([...modules, module]));
@@ -64,6 +68,7 @@ export default function Modules() {
         setModuleName={setModuleName}
         moduleName={moduleName}
         addModule={onCreateModuleForCourse}
+        isFaculty={isFaculty}
       />
       <br />
       <br />
@@ -82,26 +87,36 @@ export default function Modules() {
                 <FormControl
                   className="w-50 d-inline-block"
                   onChange={(e) =>
+                    isFaculty &&
                     dispatch(
                       updateModule({ ...module, name: e.target.value })
                     )
                   }
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === "Enter" && isFaculty) {
                       onUpdateModule({ ...module, editing: false });
                     }
                   }}
                   onBlur={() => {
-                    dispatch(updateModule({ ...module, editing: false }));
+                    if (isFaculty) {
+                      dispatch(updateModule({ ...module, editing: false }));
+                    }
                   }}
                   defaultValue={module.name}
                   autoFocus
+                  disabled={!isFaculty}
+                  readOnly={!isFaculty}
                 />
               )}
               <ModulesControlButtons
                 moduleId={module._id}
                 deleteModule={onRemoveModule}
-                editModule={(moduleId) => dispatch(editModule(moduleId))}
+                editModule={(moduleId) => {
+                  if (isFaculty) {
+                    dispatch(editModule(moduleId));
+                  }
+                }}
+                isFaculty={isFaculty}
               />
             </div>
             {module.lessons && (
