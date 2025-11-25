@@ -8,6 +8,7 @@ import { FaPen, FaTrash } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import * as usersClient from "../../../../Users/client";
+import PeopleDetails from "../Details";
 
 interface User {
   _id: string;
@@ -23,7 +24,9 @@ interface User {
 }
 
 interface PeopleTableProps {
-  params: { cid: string };
+  params?: { cid: string };
+  users?: User[];
+  fetchUsers?: () => void;
 }
 
 const emptyUser = {
@@ -37,18 +40,25 @@ const emptyUser = {
   email: "",
 };
 
-export default function PeopleTable({ params }: PeopleTableProps) {
-  const courseId = params.cid;
+export default function PeopleTable({ params, users, fetchUsers }: PeopleTableProps) {
+  const courseId = params?.cid;
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
   const isFaculty =
     (currentUser as any)?.role?.toUpperCase().trim() === "FACULTY";
+  const isAdmin =
+    (currentUser as any)?.role?.toUpperCase().trim() === "ADMIN";
 
-  const [people, setPeople] = useState<User[]>([]);
+  // If users prop is provided, use it (for general users list)
+  // Otherwise, fetch course-specific users
+  const [people, setPeople] = useState<User[]>(users || []);
   const [form, setForm] = useState<any>(emptyUser);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showUserId, setShowUserId] = useState<string | null>(null);
 
   const loadPeople = async () => {
+    if (!courseId) return;
     try {
       setError(null);
       const data = await usersClient.findPeopleForCourse(courseId);
@@ -59,8 +69,14 @@ export default function PeopleTable({ params }: PeopleTableProps) {
   };
 
   useEffect(() => {
-    loadPeople();
-  }, [courseId]);
+    if (users !== undefined) {
+      // If users prop is provided, use it directly
+      setPeople(users);
+    } else if (courseId) {
+      // Otherwise, fetch course-specific users
+      loadPeople();
+    }
+  }, [courseId, users]);
 
   const startEdit = (user: User) => {
     setEditingId(user._id);
@@ -85,7 +101,8 @@ export default function PeopleTable({ params }: PeopleTableProps) {
   };
 
   const handleSave = async () => {
-    if (!isFaculty) return;
+    if (!isFaculty && !isAdmin) return;
+    if (!courseId) return; // Course-specific operations require courseId
     try {
       const payload = buildPayload();
       if (editingId) {
@@ -105,26 +122,49 @@ export default function PeopleTable({ params }: PeopleTableProps) {
         setPeople([...people, newUser]);
       }
       resetForm();
+      if (fetchUsers) {
+        fetchUsers();
+      }
     } catch (e) {
       setError("Unable to save user changes.");
     }
   };
 
   const handleDelete = async (userId: string) => {
-    if (!isFaculty) return;
+    if (!isFaculty && !isAdmin) return;
+    if (!courseId) return; // Course-specific operations require courseId
     try {
       await usersClient.deleteUserFromCourse(courseId, userId);
       setPeople(people.filter((user) => user._id !== userId));
       if (editingId === userId) {
         resetForm();
       }
+      if (fetchUsers) {
+        fetchUsers();
+      }
     } catch (e) {
       setError("Unable to delete user.");
     }
   };
 
+  const handleShowDetails = (userId: string) => {
+    setShowUserId(userId);
+    setShowDetails(true);
+  };
+
+  const handleCloseDetails = () => {
+    setShowDetails(false);
+    setShowUserId(null);
+    if (fetchUsers) {
+      fetchUsers();
+    }
+  };
+
   return (
     <div id="wd-people-table">
+      {showDetails && (
+        <PeopleDetails uid={showUserId} onClose={handleCloseDetails} />
+      )}
       {error && (
         <div className="alert alert-warning" role="alert">
           {error}
@@ -139,23 +179,29 @@ export default function PeopleTable({ params }: PeopleTableProps) {
             <th>Role</th>
             <th>Last Activity</th>
             <th>Total Activity</th>
-            {isFaculty && <th>Actions</th>}
+            {(isFaculty || isAdmin) && courseId && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
           {people.map((user) => (
             <tr key={user._id}>
               <td className="wd-full-name text-nowrap">
-                <FaUserCircle className="me-2 fs-1 text-secondary" />
-                <span className="wd-first-name">{user.firstName}</span>{" "}
-                <span className="wd-last-name">{user.lastName}</span>
+                <span
+                  className="text-decoration-none"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleShowDetails(user._id)}
+                >
+                  <FaUserCircle className="me-2 fs-1 text-secondary" />
+                  <span className="wd-first-name">{user.firstName}</span>{" "}
+                  <span className="wd-last-name">{user.lastName}</span>
+                </span>
               </td>
               <td className="wd-login-id">{user.loginId}</td>
               <td className="wd-section">{user.section}</td>
               <td className="wd-role">{(user.role || "").toUpperCase()}</td>
               <td className="wd-last-activity">{user.lastActivity || "N/A"}</td>
               <td className="wd-total-activity">{user.totalActivity || "N/A"}</td>
-              {isFaculty && (
+              {(isFaculty || isAdmin) && courseId && (
                 <td className="text-nowrap">
                   <Button
                     variant="link"
@@ -178,7 +224,7 @@ export default function PeopleTable({ params }: PeopleTableProps) {
         </tbody>
       </Table>
 
-      {isFaculty && (
+      {(isFaculty || isAdmin) && courseId && (
         <div className="mt-4 border rounded p-3 bg-light-subtle">
           <h5>{editingId ? "Edit User" : "Add User"}</h5>
           <div className="row g-2">
