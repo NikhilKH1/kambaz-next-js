@@ -2,7 +2,7 @@
 "use client";
 import * as client from "../client";
 import Link from "next/link";
-import { redirect } from "next/dist/client/components/navigation";
+import { useRouter } from "next/navigation";
 import { setCurrentUser } from "../reducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -14,6 +14,7 @@ export default function Signin() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter();
   const signin = async () => {
     if (!credentials.username || !credentials.password) {
       setError("Please enter both username and password");
@@ -28,7 +29,7 @@ export default function Signin() {
         return;
       }
       dispatch(setCurrentUser(user));
-      redirect("/Dashboard");
+      router.push("/Dashboard");
     } catch (err: any) {
       console.error("Signin error:", err);
       setError(err.message || "Unable to sign in. Please try again.");
