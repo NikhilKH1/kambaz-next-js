@@ -2,11 +2,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { Table, Button, FormControl, FormSelect } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
 import { FaPen, FaTrash } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import * as coursesClient from "../../../client";
 import * as usersClient from "../../../../Users/client";
 import PeopleDetails from "../Details";
 
@@ -24,7 +26,6 @@ interface User {
 }
 
 interface PeopleTableProps {
-  params?: { cid: string };
   users?: User[];
   fetchUsers?: () => void;
 }
@@ -40,8 +41,9 @@ const emptyUser = {
   email: "",
 };
 
-export default function PeopleTable({ params, users, fetchUsers }: PeopleTableProps) {
-  const courseId = params?.cid;
+export default function PeopleTable({ users, fetchUsers }: PeopleTableProps) {
+  const params = useParams();
+  const courseId = params?.cid as string;
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
   const isFaculty =
     (currentUser as any)?.role?.toUpperCase().trim() === "FACULTY";
@@ -61,10 +63,11 @@ export default function PeopleTable({ params, users, fetchUsers }: PeopleTablePr
     if (!courseId) return;
     try {
       setError(null);
-      const data = await usersClient.findPeopleForCourse(courseId);
-      setPeople(data);
-    } catch (e) {
-      setError("Unable to load people at the moment.");
+      const data = await coursesClient.findUsersForCourse(courseId);
+      setPeople(data || []);
+    } catch (e: any) {
+      console.error("Error loading people:", e);
+      setError(e.response?.data?.message || "Unable to load people at the moment.");
     }
   };
 
@@ -104,24 +107,23 @@ export default function PeopleTable({ params, users, fetchUsers }: PeopleTablePr
     if (!isFaculty && !isAdmin) return;
     if (!courseId) return; // Course-specific operations require courseId
     try {
+      setError(null);
       const payload = buildPayload();
       if (editingId) {
-        const updated = await usersClient.updateUserInCourse(
+        await usersClient.updateUserInCourse(
           courseId,
           editingId,
           payload
         );
-        setPeople(
-          people.map((user) => (user._id === editingId ? updated : user))
-        );
       } else {
-        const newUser = await usersClient.createUserForCourse(
+        await usersClient.createUserForCourse(
           courseId,
           payload
         );
-        setPeople([...people, newUser]);
       }
       resetForm();
+      // Refresh the enrolled users list from the server
+      await loadPeople();
       if (fetchUsers) {
         fetchUsers();
       }
@@ -134,11 +136,13 @@ export default function PeopleTable({ params, users, fetchUsers }: PeopleTablePr
     if (!isFaculty && !isAdmin) return;
     if (!courseId) return; // Course-specific operations require courseId
     try {
+      setError(null);
       await usersClient.deleteUserFromCourse(courseId, userId);
-      setPeople(people.filter((user) => user._id !== userId));
       if (editingId === userId) {
         resetForm();
       }
+      // Refresh the enrolled users list from the server
+      await loadPeople();
       if (fetchUsers) {
         fetchUsers();
       }

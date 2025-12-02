@@ -32,9 +32,7 @@ export const removeTodo = async (todo: any) => {
   export const updateTodo = async (todo: any) => {
     const response = await axios.put(`${TODOS_API}/${todo.id}`, todo);
     return response.data;
-  };
-  
-  
+  };  
 
   export const createNewTodo = async () => {
     const response = await axios.get(`${TODOS_API}/create`);

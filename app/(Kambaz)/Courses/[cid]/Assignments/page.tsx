@@ -38,7 +38,6 @@ export default function AssignmentsPage() {
 
   const { currentUser } = useSelector((state: RootState) => state.accountReducer);
   const isFaculty = (currentUser as any)?.role?.toUpperCase() === "FACULTY";
-  const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
 
   const loadAssignments = async () => {
     if (!cid) return;
@@ -56,7 +55,7 @@ export default function AssignmentsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cid]);
 
-  const filtered = filteredAssignments.filter((a: any) =>
+  const filtered = assignments.filter((a: any) =>
     `${a.title} ${a.availLabel} ${a.availRest} ${a.due} ${a.points}`
       .toLowerCase()
       .includes(q.toLowerCase())
@@ -85,10 +84,10 @@ export default function AssignmentsPage() {
   const handleDeleteConfirm = async () => {
     if (!assignmentToDelete) return;
     try {
+      setError(null);
       await assignmentsClient.deleteAssignment(assignmentToDelete);
-      setAssignments((prev) =>
-        prev.filter((assignment) => assignment._id !== assignmentToDelete)
-      );
+      // Refresh assignments from server to ensure UI is in sync with database
+      await loadAssignments();
     } catch (err) {
       setError("Unable to delete assignment.");
     } finally {

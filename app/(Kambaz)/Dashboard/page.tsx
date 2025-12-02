@@ -110,24 +110,22 @@ export default function Dashboard() {
     const userId = (currentUser as any)._id;
     try {
       if (isEnrolled(courseId)) {
+        // Unenroll from course
         await enrollmentsClient.unenrollFromCourse("current", courseId);
-        dispatch(unenrollUser({ userId, courseId }));
+        // Refresh enrollments from server to ensure UI is in sync with database
+        await fetchEnrollments();
       } else {
+        // Enroll in course
         const enrollment = await enrollmentsClient.enrollInCourse(
           "current",
           courseId
         );
-        dispatch(
-          enrollUser(
-            enrollment || {
-              user: userId,
-              course: courseId,
-            }
-          )
-        );
+        // Refresh enrollments from server to ensure UI is in sync with database
+        await fetchEnrollments();
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error enrolling/unenrolling:", error);
+      // Optionally show error message to user
     }
   };
 
@@ -147,21 +145,33 @@ export default function Dashboard() {
     <div id="wd-dashboard">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 id="wd-dashboard-title">Dashboard</h1>
-        <Button
-          variant="primary"
-          onClick={async () => {
-            if (!showAllCourses) {
+        <div className="d-flex gap-2">
+          <Button
+            variant="primary"
+            onClick={async () => {
+              if (!showAllCourses) {
+                await fetchAllCourses();
+                setShowAllCourses(true);
+              } else {
+                await fetchCourses();
+                setShowAllCourses(false);
+              }
+            }}
+            id="wd-enrollments-button"
+          >
+            My Courses
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={async () => {
               await fetchAllCourses();
               setShowAllCourses(true);
-            } else {
-              await fetchCourses();
-              setShowAllCourses(false);
-            }
-          }}
-          id="wd-enrollments-button"
-        >
-          Enrollments
-        </Button>
+            }}
+            id="wd-all-courses-button"
+          >
+            All Courses
+          </Button>
+        </div>
       </div>
       <hr />
 

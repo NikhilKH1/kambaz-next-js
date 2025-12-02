@@ -19,7 +19,7 @@ import {
   deleteModule,
 } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../store";
+import { RootState } from "../../../store"; 
 
 export default function Modules() {
   const { cid } = useParams();
@@ -28,16 +28,25 @@ export default function Modules() {
   const dispatch = useDispatch();
 
   const onUpdateModule = async (module: any) => {
-    await client.updateModule(module);
-    const newModules = modules.map((m: any) =>
-      m._id === module._id ? module : m
-    );
-    dispatch(setModules(newModules));
+    if (!cid || !module._id) return;
+    try {
+      const updated = await client.updateModule(cid as string, module);
+      // Refresh modules from server to ensure UI is in sync with database
+      await fetchModules();
+    } catch (error) {
+      console.error("Error updating module:", error);
+    }
   };
 
   const onRemoveModule = async (moduleId: string) => {
-    await client.deleteModule(moduleId);
-    dispatch(setModules(modules.filter((m: any) => m._id !== moduleId)));
+    if (!cid) return;
+    try {
+      await client.deleteModule(cid as string, moduleId);
+      // Refresh modules from server to ensure UI is in sync with database
+      await fetchModules();
+    } catch (error) {
+      console.error("Error deleting module:", error);
+    }
   };
 
   const onCreateModuleForCourse = async () => {
