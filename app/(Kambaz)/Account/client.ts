@@ -42,11 +42,19 @@ export const findUserById = async (id: string) => {
 
 
 export const signin = async (credentials: any) => {
-  const response = await axiosWithCredentials.post(
-    `${USERS_API}/signin`,
-    credentials
-  );
-  return response.data;
+  try {
+    const response = await axiosWithCredentials.post(
+      `${USERS_API}/signin`,
+      credentials
+    );
+    return response.data;
+  } catch (error: any) {
+    // Re-throw with a more descriptive error message
+    if (error.response) {
+      throw new Error(error.response.data?.message || "Invalid username or password");
+    }
+    throw error;
+  }
 };
 
 export const signup = async (user: any) => {
@@ -63,8 +71,13 @@ export const updateUser = async (user: any) => {
 };
 
 export const profile = async () => {
-  const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
-  return response.data;
+  try {
+    const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
+    return response.data;
+  } catch (error: any) {
+    // Re-throw to let caller handle (401 is expected when not logged in)
+    throw error;
+  }
 };
 
 export const signout = async () => {

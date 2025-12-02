@@ -11,9 +11,17 @@ export default function Session({ children }: { children: any }) {
       const currentUser = await client.profile();
       dispatch(setCurrentUser(currentUser));
     } catch (err: any) {
-      console.error(err);
+      // 401 is expected when user is not logged in - this is normal
+      if (err.response?.status === 401) {
+        // User is not authenticated, clear any stale user data
+        dispatch(setCurrentUser(null));
+      } else {
+        // Only log non-401 errors
+        console.error("Profile fetch error:", err);
+      }
+    } finally {
+      setPending(false);
     }
-    setPending(false);
   };
   useEffect(() => {
     fetchProfile();
@@ -21,4 +29,5 @@ export default function Session({ children }: { children: any }) {
   if (!pending) {
     return children;
   }
+  return null; // Return null while pending
 }
