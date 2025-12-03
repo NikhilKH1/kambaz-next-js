@@ -3,10 +3,48 @@ import axios from "axios";
 
 export const HTTP_SERVER =
   process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
+
+// Log in development to help debug
+if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+  console.log("Frontend HTTP_SERVER:", HTTP_SERVER);
+}
+
 const axiosWithCredentials = axios.create({
   baseURL: HTTP_SERVER,
   withCredentials: true,
+  timeout: 10000, // 10 second timeout
 });
+
+// Add request interceptor for debugging
+axiosWithCredentials.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+      console.log("API Request:", config.method?.toUpperCase(), config.url);
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for error handling
+axiosWithCredentials.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      // Server responded with error
+      console.error("API Error:", error.response.status, error.response.data);
+    } else if (error.request) {
+      // Request made but no response
+      console.error("Network Error: No response from server", HTTP_SERVER);
+    } else {
+      // Something else happened
+      console.error("Request Error:", error.message);
+    }
+    return Promise.reject(error);
+  }
+);
 export const USERS_API = "/api/users";
 export const findAllUsers = async () => {
   const response = await axiosWithCredentials.get(USERS_API);
