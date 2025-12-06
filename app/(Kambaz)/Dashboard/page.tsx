@@ -26,8 +26,25 @@ export default function Dashboard() {
   });
 
   const onAddNewCourse = async () => {
-    const newCourse = await client.createCourse(course);
-    dispatch(setCourses([ ...courses, newCourse ]));
+    try {
+      await client.createCourse(course);
+      // Refresh courses and enrollments to ensure UI is in sync with server
+      if (showAllCourses) {
+        await fetchAllCourses();
+      } else {
+        await fetchCourses();
+      }
+      await fetchEnrollments();
+      // Reset the course form to default values
+      setCourse({
+        _id: "0", name: "New Course", number: "New Number",
+        startDate: "2023-09-10", endDate: "2023-12-15",
+        department: "D123", credits: 3,
+        image: "/images/reactjs.jpg", description: "New Description"
+      });
+    } catch (error) {
+      console.error("Error creating course:", error);
+    }
   };
 
   const onDeleteCourse = async (courseId: string) => {
